@@ -1,0 +1,193 @@
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.kran-logo {
+  width: 100px;
+  height: auto;
+  background: white;
+  padding: 10px;
+}
+
+.app {
+  max-width: 420px;
+  margin: 50px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Poppins, sans-serif;
+}
+.todo-app {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.todo-item:hover {
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+.expense-tracker {
+  background: #fff;
+}
+
+.expense-tracker input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.expense-tracker li:hover {
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+.app,
+.expense-tracker {
+  min-height: 100vh;
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.input-section input,
+input[type="number"],
+input[type="text"] {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.input-section input:focus,
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.4);
+}
+
+button,
+.btn {
+  border-radius: 8px !important;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+button:hover,
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.stats {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+.filter-buttons button {
+  padding: 6px 14px;
+  border: none;
+  background-color: #eaeaea;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.filter-buttons .active {
+  background-color: #007bff;
+  color: white;
+}
+
+.todo-item {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.todo-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.expense-tracker .card {
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* .expense-tracker button {
+  background-color: #007bff;
+  color: white;
+}
+
+.expense-tracker button:hover {
+  background-color: #0056b3;
+} */
+
+.expense-tracker ul li {
+  transition: transform 0.2s ease;
+}
+
+.expense-tracker ul li:hover {
+  transform: scale(1.02);
+}
+.weather-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.error {
+  color: red;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
