@@ -217,7 +217,7 @@ const Weather = () => {
           {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
         </ThemeToggle>
 
-        <Title>🌦️ Weather App</Title>
+        <Title>🌦️ Find Weather</Title>
 
         <Form onSubmit={onViewLocation}>
           <Input
