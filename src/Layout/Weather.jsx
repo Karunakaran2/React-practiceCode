@@ -1,87 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Button, Card, CardTitle, Container, Form } from "react-bootstrap";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-
-const lightTheme = {
-  background: "#f2f2f2",
-  cardBg: "#ffffff",
-  text: "#000",
-  buttonBg: "#007bff",
-};
-
-const darkTheme = {
-  background: "#121212",
-  cardBg: "#1e1e1e",
-  text: "#fff",
-  buttonBg: "#ff9800",
-};
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: ${(props) => props.theme.background};
-    color: ${(props) => props.theme.text};
-    transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-  }
-`;
-
-const Container = styled.div`
-  text-align: center;
-  padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 20px;
-`;
-
-const Form = styled.form`
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  width: 220px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  font-size: 1rem;
-`;
-
-const Button = styled.button`
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  background-color: ${(props) =>
-    props.active ? "green" : props.theme.buttonBg};
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
-
-const Card = styled.div`
-  background-color: ${(props) => props.theme.cardBg};
-  padding: 20px;
-  border-radius: 12px;
-  display: inline-block;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  width: 90%;
-  max-width: 350px;
-  transition: 0.3s;
-`;
 
 const WeatherImage = styled.img`
   width: 100px;
@@ -208,24 +127,19 @@ const Weather = () => {
   };
 
   return (
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-      <GlobalStyle />
-      <Container>
-        <ThemeToggle
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        >
-          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
-        </ThemeToggle>
+    <div className="container py-4 w-50">
+      <CardTitle className="fw-bold fs-1 text-center mb-3">
+        🌦️ Find Weather
+      </CardTitle>
 
-        <Title>🌦️ Find Weather</Title>
-
-        <Form onSubmit={onViewLocation}>
-          <Input
-            type="text"
-            placeholder="Enter city name..."
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
+      <Form onSubmit={onViewLocation}>
+        <input
+          type="text"
+          placeholder="Enter city name..."
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        <div className="d-flex gap-2 justify-content-center py-3">
           <Button type="submit" active={activeButton === "search"}>
             Search
           </Button>
@@ -236,35 +150,35 @@ const Weather = () => {
           >
             📍 My Location
           </Button>
-        </Form>
+        </div>
+      </Form>
 
-        {loading && (
-          <div className="loader">
-            <div className="spinner"></div>
-            <p>Fetching weather data...</p>
-          </div>
-        )}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && (
+        <div className="loader">
+          <div className="spinner"></div>
+          <p>Fetching weather data...</p>
+        </div>
+      )}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-        {weather && !loading && (
-          <Card>
-            <h3>
-              {weather.name}, {weather.sys.country}
-            </h3>
-            <WeatherImage
-              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-              alt={weather.weather[0].description}
-            />
-            <h2>{Math.round(weather.main.temp)}°C</h2>
-            <p>{weather.weather[0].description}</p>
-            <p>💧 Humidity: {weather.main.humidity}%</p>
-            <p>💨 Wind: {weather.wind.speed} m/s</p>
-            <p>🌅 Sunrise: {formatTime(weather.sys.sunrise)}</p>
-            <p>🌇 Sunset: {formatTime(weather.sys.sunset)}</p>
-          </Card>
-        )}
-      </Container>
-    </ThemeProvider>
+      {weather && !loading && (
+        <Card className="card-body text-center card d-flex align-items-center">
+          <h3>
+            {weather.name}, {weather.sys.country}
+          </h3>
+          <WeatherImage
+            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            alt={weather.weather[0].description}
+          />
+          <h2>{Math.round(weather.main.temp)}°C</h2>
+          <p>{weather.weather[0].description}</p>
+          <p>💧 Humidity: {weather.main.humidity}%</p>
+          <p>💨 Wind: {weather.wind.speed} m/s</p>
+          <p>🌅 Sunrise: {formatTime(weather.sys.sunrise)}</p>
+          <p>🌇 Sunset: {formatTime(weather.sys.sunset)}</p>
+        </Card>
+      )}
+    </div>
   );
 };
 

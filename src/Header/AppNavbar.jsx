@@ -1,11 +1,21 @@
-import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import Kranlogo from "../assets/Kran-React-Logo.svg";
+import { ThemeContext } from "../Context/ThemeContext";
 
 function AppNavbar() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="px-4">
+    <Navbar
+      style={{
+        backgroundColor: theme === "light" ? "#f2f2f2" : "#333",
+        color: theme === "light" ? "#000" : "#fff",
+      }}
+      expand="lg"
+      className={`px-4 ${theme === "light" ? "navbar-light" : "navbar-dark"}`}
+    >
       <Navbar.Brand as={NavLink} to="/" className="fw-bold fs-4">
         <img src={Kranlogo} alt="Kran Logo" height="40" className="kran-logo" />
       </Navbar.Brand>
@@ -67,6 +77,9 @@ function AppNavbar() {
             Login
           </Nav.Link>
         </Nav>
+        <Button onClick={toggleTheme}>
+          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+        </Button>
       </Navbar.Collapse>
     </Navbar>
   );

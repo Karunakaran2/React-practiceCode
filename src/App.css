@@ -32,9 +32,6 @@ body,
   transform: scale(1.02);
   transition: all 0.2s ease;
 }
-.expense-tracker {
-  background: #fff;
-}
 
 .expense-tracker input:focus {
   border-color: #007bff;
@@ -190,4 +187,20 @@ button:hover,
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar-light .nav-link {
+  color: #000 !important;
+}
+
+.navbar-dark .nav-link {
+  color: #fff !important;
+}
+
+.navbar-light .nav-link.active {
+  color: #007bff !important;
+}
+
+.navbar-dark .nav-link.active {
+  color: #0dcaf0 !important;
 }
