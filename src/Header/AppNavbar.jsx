@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import Kranlogo from "../assets/Kran-React-Logo.svg";
-import { ThemeContext } from "../Context/ThemeContext";
+import { AppContext } from "../Context/AppContext";
 
 function AppNavbar() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme, user, logout } = useContext(AppContext);
 
   return (
     <Navbar
@@ -19,6 +19,7 @@ function AppNavbar() {
       <Navbar.Brand as={NavLink} to="/" className="fw-bold fs-4">
         <img src={Kranlogo} alt="Kran Logo" height="40" className="kran-logo" />
       </Navbar.Brand>
+
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
@@ -67,15 +68,22 @@ function AppNavbar() {
           >
             Weather
           </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
-            }
-          >
-            Login
-          </Nav.Link>
+          {user ? (
+            <button className="btn bg-danger me-1" onClick={logout}>
+              {" "}
+              Logout
+            </button>
+          ) : (
+            <Nav.Link
+              as={NavLink}
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
+              }
+            >
+              Login
+            </Nav.Link>
+          )}
         </Nav>
         <Button onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}

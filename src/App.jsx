@@ -9,8 +9,13 @@ import TodoApp from "./Layout/TodoApp";
 import NotesApp from "./Layout/NotesApp";
 import Weather from "./Layout/Weather";
 import { useContext } from "react";
-import { ThemeContext } from "./Context/ThemeContext";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { AppContext } from "./Context/AppContext";
+
+import styled, {
+  createGlobalStyle,
+  ThemeProvider as StyledThemeProvider,
+} from "styled-components";
+import PrivateRoute from "./Login/PrivateRoute";
 
 const lightTheme = {
   background: "#f2f2f2",
@@ -37,23 +42,30 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(AppContext);
   return (
     <>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <StyledThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <GlobalStyle />
         <AppNavbar />
         <div className="container mt-4">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
             <Route path="/todoapp" element={<TodoApp />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/notesapp" element={<NotesApp />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/weatherApp" element={<Weather />} />
           </Routes>
         </div>
-      </ThemeProvider>
+      </StyledThemeProvider>
     </>
   );
 }

@@ -59,7 +59,8 @@ h1 {
 
 .input-section input,
 input[type="number"],
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   border-radius: 10px;
   border: 1px solid #ccc;
   padding: 10px;
