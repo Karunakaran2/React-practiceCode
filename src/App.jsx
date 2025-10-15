@@ -59,8 +59,22 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/todoapp" element={<TodoApp />} />
-            <Route path="/transactions" element={<Transactions />} />
+            <Route
+              path="/todoapp"
+              element={
+                <PrivateRoute>
+                  <TodoApp />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/transactions"
+              element={
+                <PrivateRoute>
+                  <Transactions />
+                </PrivateRoute>
+              }
+            />
             <Route path="/notesapp" element={<NotesApp />} />
             <Route path="/weatherApp" element={<Weather />} />
           </Routes>

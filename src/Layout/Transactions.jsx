@@ -1,16 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
+import { transactionReducer } from "../Reducers/transactionReducer";
 
 const Transactions = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [transactions, setTransactions] = useState([]);
+  // const [transactions, setTransactions] = useState([]);
+  const [transactions, dispatch] = useReducer(transactionReducer, []);
   const [filter, setFilter] = useState("all");
 
   const isFirstRender = useRef(true);
 
   useEffect(() => {
     const transactionSaved = JSON.parse(localStorage.getItem("transactions"));
-    if (transactionSaved) setTransactions(transactionSaved);
+    if (transactionSaved)
+      dispatch({ type: "SET_TRANSACTIONS", payload: transactionSaved });
+    // if (transactionSaved) setTransactions(transactionSaved);
   }, []);
 
   useEffect(() => {
@@ -21,25 +25,29 @@ const Transactions = () => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
 
-  const addTransaction = () => {
+  const addTransaction = (e) => {
+    e.preventDefault();
     if (description.trim() === "" || amount.trim() === "") {
       alert("Fields are Required");
       return;
     }
-    const newTransaction = {
-      id: Date.now(),
-      description,
-      amount: parseFloat(amount),
-    };
-    setTransactions([...transactions, newTransaction]);
+    dispatch({
+      type: "ADD_TRANSACTION",
+      payload: { description, amount: parseFloat(amount) },
+    });
+    // const newTransaction = {
+    //   id: Date.now(),
+    //   description,
+    //   amount: parseFloat(amount),
+    // };
+    // setTransactions([...transactions, newTransaction]);
     setDescription("");
     setAmount("");
-    console.log(newTransaction);
   };
 
-  const onDelete = (id) => {
-    setTransactions(transactions.filter((t) => t.id !== id));
-  };
+  // const onDelete = (id) => {
+  //   setTransactions(transactions.filter((t) => t.id !== id));
+  // };
 
   const income = transactions
     .filter((t) => t.amount > 0)
@@ -76,24 +84,26 @@ const Transactions = () => {
 
       <div className="card card-body mb-4">
         <h5 className="text-center fw-bold mb-3">Add New Transaction</h5>
-        <input
-          type="text"
-          placeholder="Description"
-          className="form-control mb-2"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Amount (+ for income, - for expense)"
-          className="form-control mb-3"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addTransaction()}
-        />
-        <button className="btn btn-primary" onClick={addTransaction}>
-          Add Transaction
-        </button>
+        <form onSubmit={addTransaction}>
+          <input
+            type="text"
+            placeholder="Description"
+            className="form-control mb-2"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Amount (+ for income, - for expense)"
+            className="form-control mb-3"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addTransaction(e)}
+          />
+          <button className="btn btn-primary" type="submit">
+            Add Transaction
+          </button>
+        </form>
       </div>
 
       <h4 className="fw-bold mb-3">Transaction History</h4>
@@ -144,7 +154,9 @@ const Transactions = () => {
               </div>
               <button
                 className="btn btn-sm btn-outline-danger"
-                onClick={() => onDelete(t.id)}
+                onClick={() =>
+                  dispatch({ type: "DELETE_TRANSACTION", payload: t.id })
+                }
               >
                 Delete
               </button>

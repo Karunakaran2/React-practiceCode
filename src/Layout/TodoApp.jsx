@@ -1,26 +1,29 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useReducer } from "react";
 import { Button } from "react-bootstrap";
+import { todoReducer } from "../Reducers/todoReducer";
 
 const TodoApp = () => {
   const [task, setTask] = useState("");
-  const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [todos, dispatch] = useReducer(todoReducer, []);
 
   const isFirstRender = useRef(true);
 
-  const addtask = () => {
+  const addtask = (e) => {
+    e.preventDefault();
     if (task.trim() === "") {
       alert("Enter A Task");
       return;
     }
-    const newTask = { id: Date.now(), text: task, completed: false };
-    setTodos([...todos, newTask]);
+    dispatch({ type: "ADD_TODO", payload: task });
     setTask("");
   };
 
+  console.log(todos);
+
   useEffect(() => {
-    const savetodos = JSON.parse(localStorage.getItem("todos"));
-    if (savetodos) setTodos(savetodos);
+    const savetodos = JSON.parse(localStorage.getItem("todos")) || [];
+    if (savetodos) dispatch({ type: "SET_TODOS", payload: savetodos });
   }, []);
 
   useEffect(() => {
@@ -30,19 +33,6 @@ const TodoApp = () => {
     }
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
-
-  const onToggle = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  const onDelete = (id) => {
-    const newvalue = todos.filter((todo) => todo.id !== id);
-    setTodos(newvalue);
-  };
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "completed") return todo.completed;
@@ -54,18 +44,17 @@ const TodoApp = () => {
     <div className="todo-app container mt-5 w-50">
       <h1 className="text-center mb-4">✅ Premium To-Do List</h1>
 
-      <div className="input-section d-flex gap-2">
-        <input
-          type="text"
-          placeholder="Enter your task"
-          className="form-control"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addtask()}
-        />
-        <button className="btn btn-primary" onClick={addtask}>
-          Add
-        </button>
+      <div className="">
+        <form onSubmit={addtask} className="d-flex gap-2 mb-3">
+          <input
+            className="form-control"
+            placeholder="Enter task..."
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addtask(e)}
+          />
+          <button className="btn btn-primary">Add</button>
+        </form>
       </div>
 
       <p className="text-center mt-3 fw-semibold">
@@ -114,7 +103,10 @@ const TodoApp = () => {
                 type="checkbox"
                 className="form-check-input me-2"
                 checked={todo.completed}
-                onChange={() => onToggle(todo.id)}
+                onClick={() =>
+                  dispatch({ type: "TOGGLE_TODO", payload: todo.id })
+                }
+                // onChange={() => onToggle(todo.id)}
               />
               <span
                 style={{
@@ -126,7 +118,9 @@ const TodoApp = () => {
             </div>
             <button
               className="btn btn-sm btn-outline-danger"
-              onClick={() => onDelete(todo.id)}
+              onClick={() =>
+                dispatch({ type: "DELETE_TODO", payload: todo.id })
+              }
             >
               Delete
             </button>
