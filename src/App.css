@@ -205,3 +205,73 @@ button:hover,
 .navbar-dark .nav-link.active {
   color: #0dcaf0 !important;
 }
+.app-navbar {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+}
+
+.navbar-dark.app-navbar {
+  background: rgba(25, 25, 25, 0.85);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.app-navbar .brand span {
+  font-weight: 700;
+  color: var(--primary-color, #007bff);
+}
+
+.app-navbar .nav-link {
+  position: relative;
+  margin: 0 8px;
+  color: inherit !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.app-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-color, #007bff);
+  transition: width 0.3s ease;
+}
+
+.app-navbar .nav-link:hover::after,
+.app-navbar .nav-link.active::after {
+  width: 100%;
+}
+
+.app-navbar .nav-link:hover {
+  color: var(--primary-color, #007bff) !important;
+}
+
+#nav-dropdown .dropdown-item {
+  transition: all 0.3s ease;
+}
+
+#nav-dropdown .dropdown-item:hover {
+  background-color: var(--primary-color, #007bff);
+  color: #fff !important;
+}
+
+.theme-btn {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  line-height: 1;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.theme-btn:hover {
+  background: var(--primary-color, #007bff);
+  color: #fff;
+}
