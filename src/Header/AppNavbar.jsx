@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Kranlogo from "../assets/Kran-React-Logo.svg";
 import { AppContext } from "../Context/AppContext";
 
 function AppNavbar() {
   const { theme, toggleTheme, user, logout } = useContext(AppContext);
+  const navigate = useNavigate();
 
   return (
     <Navbar
@@ -17,7 +18,13 @@ function AppNavbar() {
       className={`px-4 ${theme === "light" ? "navbar-light" : "navbar-dark"}`}
     >
       <Navbar.Brand as={NavLink} to="/" className="fw-bold fs-4">
-        <img src={Kranlogo} alt="Kran Logo" height="40" className="kran-logo" />
+        <img
+          src={Kranlogo}
+          alt="Kran Logo"
+          height="40"
+          className="kran-logo"
+          onClick={() => navigate("/")}
+        />
       </Navbar.Brand>
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -32,44 +39,67 @@ function AppNavbar() {
           >
             Home
           </Nav.Link>
+          <NavDropdown title="Practice App" id="basic-nav-dropdown">
+            <NavDropdown.Item
+              as={NavLink}
+              to="/todoapp"
+              className={({ isActive }) =>
+                isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
+              }
+            >
+              TodoApp
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to="/transactions"
+              className={({ isActive }) =>
+                isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
+              }
+            >
+              Transactions
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to="/weatherApp"
+              className={({ isActive }) =>
+                isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
+              }
+            >
+              Weather
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to="/notesapp"
+              className={({ isActive }) =>
+                isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
+              }
+            >
+              Notes App
+            </NavDropdown.Item>
+          </NavDropdown>
+
           <Nav.Link
             as={NavLink}
-            to="/todoapp"
+            to="/contact-app"
             className={({ isActive }) =>
               isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
             }
           >
-            TodoApp
+            Contact App
           </Nav.Link>
+
           <Nav.Link
             as={NavLink}
-            to="/transactions"
+            to="/contacts"
             className={({ isActive }) =>
               isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
             }
           >
-            Transactions
+            Contact Modal
           </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/notesapp"
-            className={({ isActive }) =>
-              isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
-            }
-          >
-            Notes App
-          </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/weatherApp"
-            className={({ isActive }) =>
-              isActive ? "active nav-link mx-2 fw-bold" : "nav-link mx-2"
-            }
-          >
-            Weather
-          </Nav.Link>
+
           {user ? (
-            <button className="btn bg-danger me-1" onClick={logout}>
+            <button className="btn btn-danger me-1" onClick={logout}>
               {" "}
               Logout
             </button>

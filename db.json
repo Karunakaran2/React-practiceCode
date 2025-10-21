@@ -1,0 +1,23 @@
+{
+  "contacts": [
+    {
+      "id": "1",
+      "name": "Karan",
+      "email": "karan@email.com",
+      "phone": "9876543210",
+      "mobileNo": "52365"
+    },
+    {
+      "id": "3",
+      "name": "Karunakaran",
+      "email": "karankutty406@gmail.com",
+      "mobileNo": "8888833"
+    },
+    {
+      "id": "7e80",
+      "name": "Case Study",
+      "email": "karunakaran@kran.co.in",
+      "mobileNo": "9854556"
+    }
+  ]
+}

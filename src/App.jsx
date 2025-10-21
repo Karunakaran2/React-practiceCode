@@ -8,14 +8,18 @@ import Transactions from "./Layout/Transactions";
 import TodoApp from "./Layout/TodoApp";
 import NotesApp from "./Layout/NotesApp";
 import Weather from "./Layout/Weather";
+import NotFound from "./Layout/NotFound";
 import { useContext } from "react";
 import { AppContext } from "./Context/AppContext";
+import CustomHookUsers from "./HooksComponents/CustomHookUsers";
 
 import styled, {
   createGlobalStyle,
   ThemeProvider as StyledThemeProvider,
 } from "styled-components";
 import PrivateRoute from "./Login/PrivateRoute";
+import ContactMain from "./Layout/ContactMain";
+import ContactManager from "./Layout/ContactManager";
 
 const lightTheme = {
   background: "#f2f2f2",
@@ -59,10 +63,30 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/todoapp" element={<TodoApp />} />
-            <Route path="/transactions" element={<Transactions />} />
+            <Route
+              path="/todoapp"
+              element={
+                <PrivateRoute>
+                  <TodoApp />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/transactions"
+              element={
+                <PrivateRoute>
+                  <Transactions />
+                </PrivateRoute>
+              }
+            />
             <Route path="/notesapp" element={<NotesApp />} />
             <Route path="/weatherApp" element={<Weather />} />
+            <Route path="contact-app" element={<ContactMain />} />
+            <Route path="/contacts" element={<ContactManager />} />
+
+            {/* Custom Hook Components */}
+            <Route path="cusomt-hook-users" element={<CustomHookUsers />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </StyledThemeProvider>

@@ -1,19 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { notesReducer } from "../Reducers/notesReducer";
 
 const NotesApp = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState("#000");
-  const [notes, setNotes] = useState([]);
+  // const [notes, setNotes] = useState([]);
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
+  const [notes, dispatch] = useReducer(notesReducer, []);
 
   const isFirstRender = useRef(true);
 
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem("notes"));
-    if (savedNotes) setNotes(savedNotes);
+    if (savedNotes) dispatch({ type: "SET_NOTES", payload: savedNotes });
   }, []);
 
   useEffect(() => {
@@ -31,30 +33,35 @@ const NotesApp = () => {
     }
 
     if (editId) {
-      setNotes(
-        notes.map((note) =>
-          note.id === editId
-            ? {
-                ...note,
-                title,
-                description,
-                color,
-                createdAt: new Date().toLocaleString(),
-              }
-            : note
-        )
-      );
+      dispatch({
+        type: "UPDATE_NOTE",
+        payload: { id: editId, title, description, color },
+      });
+      // setNotes(
+      //   notes.map((note) =>
+      //     note.id === editId
+      //       ? {
+      //           ...note,
+      //           title,
+      //           description,
+      //           color,
+      //           createdAt: new Date().toLocaleString(),
+      //         }
+      //       : note
+      //   )
+      // );
       setEditId(null);
     } else {
-      const newNote = {
-        id: Date.now(),
-        title,
-        description,
-        color,
-        createdAt: new Date().toLocaleString(),
-      };
-      setNotes([...notes, newNote]);
-      console.log(newNote);
+      dispatch({ type: "ADD_NOTE", payload: { title, description, color } });
+      // const newNote = {
+      //   id: Date.now(),
+      //   title,
+      //   description,
+      //   color,
+      //   createdAt: new Date().toLocaleString(),
+      // };
+      // setNotes([...notes, newNote]);
+      // console.log(newNote);
     }
 
     setTitle("");
@@ -62,10 +69,10 @@ const NotesApp = () => {
     setColor("#000");
   };
 
-  const onDelete = (id) => {
-    const newNotes = notes.filter((n) => n.id !== id);
-    setNotes(newNotes);
-  };
+  // const onDelete = (id) => {
+  //   const newNotes = notes.filter((n) => n.id !== id);
+  //   setNotes(newNotes);
+  // };
   const onEdit = (note) => {
     setEditId(note.id);
     setTitle(note.title);
@@ -154,7 +161,9 @@ const NotesApp = () => {
                   <Button
                     variant="danger"
                     size="sm"
-                    onClick={() => onDelete(note.id)}
+                    onClick={() =>
+                      dispatch({ type: "DELETE_NOTE", payload: note.id })
+                    }
                   >
                     Delete
                   </Button>
